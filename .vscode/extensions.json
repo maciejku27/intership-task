@@ -3,14 +3,11 @@
     "ant-design-vue.vscode-ant-design-vue-helper",
     "rvest.vs-code-prettier-eslint",
     "dbaeumer.vscode-eslint",
-    "eg2.vscode-npm-script",
     "christian-kohler.npm-intellisense",
-    "irongeek.vscode-env",
     "formulahendry.auto-close-tag",
-    "dariofuzinato.vue-peek",
     "johnsoncodehk.volar",
     "gruntfuggly.todo-tree",
     "esbenp.prettier-vscode",
-    "IronGeek.vscode-env"
+    "irongeek.vscode-env"
   ]
 }

@@ -7,7 +7,7 @@ import DefaultTemplate from '@components/templates/Default/Default.vue';
 // Pages
 import Page404 from '@pages/404/404.vue';
 import Home from '@pages/Home/Home.vue';
-import Policy from '@pages/Policy/Policy.vue';
+import HelloWorld from '@pages/HelloWorld/HelloWorld.vue';
 
 const routes: RouteRecordRaw[] = [
   // outside
@@ -17,17 +17,18 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: pagePath.base.pathname,
-        redirect: pagePath.home.pathname,
+        redirect: pagePath.helloWorld.pathname,
       },
       {
         path: pagePath.home.pathname,
         name: 'home',
         component: Home,
       },
+
       {
-        path: pagePath.policy.pathname,
-        name: 'policy',
-        component: Policy,
+        path: pagePath.helloWorld.pathname,
+        name: 'helloWorld',
+        component: HelloWorld,
       },
     ],
   },

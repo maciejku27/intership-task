@@ -4,8 +4,7 @@ import { basePath } from './base.path';
 export const pagePath = {
   base: basePath.origin,
   home: concatURL('/home', basePath.origin),
-  policy: concatURL('/policy', basePath.origin),
-  steps: concatURL('/steps', basePath.origin),
+  helloWorld: concatURL('/hello-world', basePath.origin),
 
   // error url for creating links
   error: (code = 404) => concatURL(`/error/${code}`, basePath.origin),

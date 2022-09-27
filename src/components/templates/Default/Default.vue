@@ -2,15 +2,15 @@
   <a-layout class="layout">
     <a-layout-header>
       <a-row :gutter="24">
-        <a-col>
+        <a-col flex="84px">
           <CImage src="/public/logo.png" class="logo" :href="home" />
         </a-col>
-        <a-col>
-          <a-menu
-            theme="dark"
-            mode="horizontal"
-            :style="{ lineHeight: '64px' }">
+        <a-col flex="auto">
+          <a-menu theme="dark" mode="horizontal">
             <a-menu-item key="home" @click="handleHome">Home</a-menu-item>
+            <a-menu-item key="helloWorld" @click="handleHelloWorld">
+              Hello World
+            </a-menu-item>
           </a-menu>
         </a-col>
       </a-row>
@@ -21,7 +21,9 @@
           <Transition mode="out-in">
             <KeepAlive>
               <Suspense>
-                <component :is="Component"></component>
+                <Container size="lg">
+                  <component :is="Component"></component>
+                </Container>
               </Suspense>
             </KeepAlive>
           </Transition>
@@ -30,9 +32,7 @@
     </a-layout-content>
 
     <a-layout-footer class="footer">
-      <router-link :to="policyPage" class="policy">
-        {{ t('components.defaultTemplate.policy') }}
-      </router-link>
+      <a-typography-text strong>Made with ❤ and 🍕</a-typography-text>
     </a-layout-footer>
   </a-layout>
 </template>
@@ -41,16 +41,17 @@
 //#region vendor
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 //#endregion
 //#region internal
 import { pagePath } from '@paths/page.path';
 import CImage from '@components/atoms/Image/Image.vue';
-import { useRouter } from 'vue-router';
+import Container from '@components/atoms/Container/Container.vue';
 //#endregion
 
 export default defineComponent({
   name: 'DefaultTemplate',
-  components: { CImage },
+  components: { CImage, Container },
   setup() {
     const { t } = useI18n();
     const router = useRouter();
@@ -58,12 +59,14 @@ export default defineComponent({
     const handleHome = () => {
       router.push(pagePath.home.pathname);
     };
+    const handleHelloWorld = () => {
+      router.push(pagePath.helloWorld.pathname);
+    };
 
-    return { t, handleHome };
+    return { t, handleHome, handleHelloWorld };
   },
   data() {
     return {
-      policyPage: pagePath.policy.pathname,
       home: pagePath.home.pathname,
     };
   },
@@ -79,5 +82,10 @@ export default defineComponent({
 
 .logo {
   height: 36px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
 }
 </style>
