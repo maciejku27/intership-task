@@ -1,6 +1,8 @@
 <template>
-  <Container>
-    <a-typography-title>Home!</a-typography-title>
+  <Container :size="md">
+    <a-typography-title>Todays Weather</a-typography-title>
+    <SearchBar />
+    <Weather />
   </Container>
 </template>
 
@@ -13,11 +15,13 @@ import { useI18n } from 'vue-i18n';
 import { $http } from '@services/http.service';
 import Container from '@components/atoms/Container/Container.vue';
 import { basePath } from '@paths/base.path';
+import SearchBar from '@components/atoms/Search/SearchBar.vue';
+import Weather from '@components/atoms/Weather/ShowWeather.vue';
 //#endregion
 
 export default defineComponent({
   name: 'HomePage',
-  components: { Container },
+  components: { Container, SearchBar, Weather },
   setup() {
     const { t } = useI18n();
     const city = 'London';
