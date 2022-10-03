@@ -9,22 +9,22 @@
   <div>{{ info }}</div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import axios from 'axios';
+//import { Weather } from '@types';
 
-export default {
+export default defineComponent({
+  name: 'SearchBar',
   data: () => ({
-    locations: [],
     searchLocation: '',
-    //isLoading: true,
-    //search: null,
     info: null,
   }),
   methods: {
     getLocation() {
       axios
         .get(
-          'http://api.openweathermap.org/geo/1.0/direct?q=' +
+          'http://api.openweathermap.org/data/2.5/weather?q=' +
             this.searchLocation +
             '&limit=5&appid=67cd127ea4ab6b435f50093b78e4d4d6'
         )
@@ -32,36 +32,6 @@ export default {
           this.info = response.data;
         });
     },
-    /*
-      getLocations(params = ' ') {
-      this.axios
-        .get(
-          'http://api.openweathermap.org/geo/1.0/direct' +
-            params +
-            '&limit=5&appid=67cd127ea4ab6b435f50093b78e4d4d6'
-        )
-        .then((resp) => {
-          const tempLocations = [
-            ...this.locations.slice(0),
-            ...resp.data.results,
-          ];
-          this.locations = _.uniqBy(tempLocations, 'id');
-          this.isLoading = false;
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    },
-    searchLocations(query) {
-      const searchQuery = encodeURI('?q=' + query);
-      this.getLocations(searchQuery);
-    },
   },
-  watch: {
-    search: _.debounce(function (query) {
-      this.searchLocations(query);
-    }, 250),
-  },*/
-  },
-};
+});
 </script>
