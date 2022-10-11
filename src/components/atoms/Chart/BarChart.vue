@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-empty-function -->
 <template>
   <Bar
     :chart-options="chartOptions"
@@ -12,7 +11,7 @@
     :height="height" />
 </template>
 
-<script>
+<script lang="ts">
 import { Bar } from 'vue-chartjs';
 import {
   Chart as ChartJS,
@@ -57,14 +56,7 @@ export default {
       default: '',
       type: String,
     },
-    styles: {
-      type: Object,
-      default: () => {},
-    },
-    plugins: {
-      type: Object,
-      default: () => {},
-    },
+    substance: {} as { [key: string]: number },
   },
   data() {
     return {
@@ -72,8 +64,8 @@ export default {
         labels: ['CO', 'NO', 'NO2', 'O3', 'SO2', 'PM2_5', 'PM10', 'NH3'],
         datasets: [
           {
-            label: 'Concentration, μg/m3',
-            data: [178.68, 0.06, 0.25, 44.35, 0.33, 2.37, 2.42, 0],
+            label: 'μg/m3',
+            data: [165, 0.06, 0.25, 44.35, 0.33, 2.37, 2.42, 0],
           },
         ],
       },

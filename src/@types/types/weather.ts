@@ -12,6 +12,7 @@ export interface Weather {
   id: number;
   name: string;
   cod: number;
+  list: List[];
 }
 
 export interface Clouds {
@@ -30,6 +31,7 @@ export interface Main {
   temp_max: number;
   pressure: number;
   humidity: number;
+  aqi: number;
 }
 
 export interface Sys {
@@ -50,4 +52,10 @@ export interface WeatherElement {
 export interface Wind {
   speed: number;
   deg: number;
+}
+
+export interface List {
+  main: Main;
+  components: { [key: string]: number };
+  dt: number;
 }

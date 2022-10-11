@@ -2,7 +2,6 @@
   <Container :size="md">
     <a-typography-title>Todays Weather</a-typography-title>
     <SearchBar />
-    <BarChart />
   </Container>
 </template>
 
@@ -16,12 +15,11 @@ import { $http } from '@services/http.service';
 import Container from '@components/atoms/Container/Container.vue';
 import { basePath } from '@paths/base.path';
 import SearchBar from '@components/molecules/Search/SearchBar.vue';
-import BarChart from '@components/atoms/Chart/BarChart.vue';
 //#endregion
 
 export default defineComponent({
   name: 'HomePage',
-  components: { Container, SearchBar, BarChart },
+  components: { Container, SearchBar },
   setup() {
     const { t } = useI18n();
     const city = 'London';

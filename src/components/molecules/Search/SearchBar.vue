@@ -112,6 +112,7 @@
               <a-statistic title="NH3:" :value="substance.nh3" suffix="μg/m3" />
             </a-space>
           </div>
+          <BarChart />
         </a-card>
         <a-card v-else>
           <a-typography-title :level="4">
@@ -121,9 +122,13 @@
         </a-card>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Other">
-        <a-card>
+        <a-card v-if="searchLocation != ''">
+          <a-typography-title :level="4"> date </a-typography-title>
+        </a-card>
+        <a-card v-else>
           <a-typography-title :level="4">
-            {{ substance }}
+            Write a name of the country you want to check other information of
+            in the search bar
           </a-typography-title>
         </a-card>
       </a-tab-pane>
@@ -136,9 +141,11 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import * as dayjs from 'dayjs';
 import { Coord, Main, Weather, Wind, Sys } from '@types';
+import BarChart from '@components/atoms/Chart/BarChart.vue';
 
 export default defineComponent({
   name: 'SearchBar',
+  components: { BarChart },
   data: () => ({
     searchLocation: '',
     weather: {} as Weather,
@@ -147,7 +154,7 @@ export default defineComponent({
     wind: {} as Wind,
     sys: {} as Sys,
     date: Number,
-    substance: null,
+    substance: {} as { [key: string]: number },
     air: null,
     activeKey: '1',
   }),
