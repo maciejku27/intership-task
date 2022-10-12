@@ -65,7 +65,8 @@ export default {
         datasets: [
           {
             label: 'μg/m3',
-            data: [165, 0.06, 0.25, 44.35, 0.33, 2.37, 2.42, 0],
+            data: [2100, 0.06, 0.25, 44.35, 0.33, 2.37, 2.42, 0],
+            backgroundColor: ['purple'],
           },
         ],
       },
