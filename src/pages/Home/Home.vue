@@ -1,7 +1,7 @@
 <template>
   <Container :size="md">
     <a-typography-title>Todays Weather</a-typography-title>
-    <WeatherForecast />
+    <WeatherReport />
   </Container>
 </template>
 
@@ -11,25 +11,15 @@ import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 //#endregion
 //#region internal
-import { $http } from '@services/http.service';
 import Container from '@components/atoms/Container/Container.vue';
-import { basePath } from '@paths/base.path';
-import WeatherForecast from '@components/organisms/WeatherForecast/WeatherForecast.vue';
+import WeatherReport from '@components/organisms/WeatherReport/WeatherReport.vue';
 //#endregion
 
 export default defineComponent({
   name: 'HomePage',
-  components: { Container, WeatherForecast },
+  components: { Container, WeatherReport },
   setup() {
     const { t } = useI18n();
-    const city = 'London';
-    const limit = 5;
-    $http.get(basePath.api + '/geo/1.0/direct', {
-      params: {
-        q: city,
-        limit,
-      },
-    });
 
     return { t };
   },

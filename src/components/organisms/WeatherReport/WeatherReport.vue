@@ -1,31 +1,30 @@
 <template>
   <a-space direction="vertical" :size="16">
-    <a-input-search
-      type="text"
-      v-model:value="searchLocation"
-      placeholder="Search location..."
-      enter-button="Search"
-      size="large"
-      @search="getLocation()" />
-    <a-tabs v-model:activeKey="activeKey">
-      <a-tab-pane key="1" tab="Weather">
-        <ShowWeather
-          :searchLocation="searchLocation"
-          :main="main"
-          :sys="sys"
-          :weather="weather"
-          :wind="wind"></ShowWeather>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="Air Quality" force-render>
-        <AirPollution
-          :searchLocation="searchLocation"
-          :air="air"
-          :substance="substance"></AirPollution>
-      </a-tab-pane>
-      <a-tab-pane key="3" tab="Other">
-        <OtherInfo :searchLocation="searchLocation" :date="date"></OtherInfo>
-      </a-tab-pane>
-    </a-tabs>
+    <SearchBar @event="getLocation" />
+    <a-card style="width: 500px">
+      <a-tabs v-model:activeKey="activeKey">
+        <a-tab-pane key="1" tab="Weather">
+          <ShowWeather
+            :searchLocation="searchLocation"
+            :main="main"
+            :sys="sys"
+            :weather="weather"
+            :wind="wind"
+            :report="report"></ShowWeather>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Air Quality" force-render>
+          <AirPollution
+            :searchLocation="searchLocation"
+            :air="air"
+            :substance="substance"></AirPollution>
+        </a-tab-pane>
+        <a-tab-pane key="3" tab="Other">
+          <OtherInfo
+            :searchLocation="searchLocation"
+            :weather="weather"></OtherInfo>
+        </a-tab-pane>
+      </a-tabs>
+    </a-card>
   </a-space>
 </template>
 
@@ -36,10 +35,11 @@ import { Coord, Main, Weather, Wind, Sys } from '@types';
 import ShowWeather from '@components/molecules/Weather/ShowWeather.vue';
 import AirPollution from '@components/molecules/AirPollution/AirPollution.vue';
 import OtherInfo from '@components/molecules/Other/OtherInfo.vue';
+import SearchBar from '@components/molecules/Search/SearchBar.vue';
 
 export default defineComponent({
-  name: 'WeatherForecast',
-  components: { ShowWeather, AirPollution, OtherInfo },
+  name: 'WeatherReport',
+  components: { ShowWeather, AirPollution, OtherInfo, SearchBar },
   data: () => ({
     searchLocation: '',
     weather: {} as Weather,
@@ -47,17 +47,19 @@ export default defineComponent({
     main: {} as Main,
     wind: {} as Wind,
     sys: {} as Sys,
-    date: Number,
+    report: String,
+    geo: null,
     substance: {} as { [key: string]: number },
     air: null,
     activeKey: '1',
   }),
   methods: {
-    getLocation() {
+    getLocation(lat: number, lon: number) {
       axios
         .get('http://api.openweathermap.org/data/2.5/weather', {
           params: {
-            q: this.searchLocation,
+            lat: lat,
+            lon: lon,
             units: 'metric',
             limit: 5,
             appid: '67cd127ea4ab6b435f50093b78e4d4d6',
@@ -69,7 +71,7 @@ export default defineComponent({
           this.main = response.data.main;
           this.sys = response.data.sys;
           this.wind = response.data.wind;
-          this.date = response.data.dt;
+          this.report = response.data.weather[0];
           axios
             .get(
               'http://api.openweathermap.org/data/2.5/air_pollution',

@@ -1,21 +1,66 @@
 <template>
-  <a-input-search
-    type="text"
-    v-model:value="searchLocation"
-    placeholder="Search location..."
-    enter-button="Search"
-    size="large"
-    @search="getLocation()" />
+  <div class="global-search-wrapper" style="width: 300px">
+    <a-auto-complete
+      v-model:value="searchLocation"
+      :dropdown-match-select-width="252"
+      style="width: 450px"
+      :options="geol"
+      @search="getGeo()">
+      <template #option="item">
+        <div
+          style="display: flex; justify-content: space-between"
+          @click="getLocation(item.lat, item.lon)">
+          <span>
+            {{ item.name }}, {{ item.country }}
+            <img
+              :src="`https://flagcdn.com/16x12/${
+                item.country.toLowerCase() || 'aq'
+              }.png`" />
+          </span>
+          <span> {{ item.lat.toFixed(2) }}, {{ item.lon.toFixed(2) }}</span>
+        </div>
+      </template>
+      <a-input-search
+        size="large"
+        placeholder="Search location..."
+        enter-button></a-input-search>
+    </a-auto-complete>
+  </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'SearchBar',
+  props: ['weather'],
+  setup() {
+    const searchLocation = ref('');
+
+    const geol = ref([]);
+
+    return {
+      searchLocation,
+      geol,
+    };
+  },
   methods: {
-    getLocation() {
-      this.$parent.getLocation();
+    getGeo() {
+      axios
+        .get('http://api.openweathermap.org/geo/1.0/direct', {
+          params: {
+            q: this.searchLocation,
+            limit: 5,
+            appid: '67cd127ea4ab6b435f50093b78e4d4d6',
+          },
+        })
+        .then((response) => {
+          this.geol = response.data;
+        });
+    },
+    getLocation(lat: number, lon: number) {
+      this.$emit('event', lat, lon);
     },
   },
 });

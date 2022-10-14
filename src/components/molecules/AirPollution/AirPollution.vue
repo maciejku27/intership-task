@@ -1,5 +1,5 @@
 <template>
-  <a-card v-if="searchLocation != ''">
+  <a-card v-if="air != ''">
     <a-typography-title :level="3" v-if="air == 1">
       Quality of an air:
       <a-tag color="green" style="font-size: large">Good</a-tag>
@@ -24,30 +24,45 @@
       Concentration of each substance:
     </a-typography-title>
     <div>
-      <a-space :size="45">
-        <a-statistic title="CO:" :value="substance.co" suffix="μg/m3" />
-        <a-statistic title="NO:" :value="substance.no" suffix="μg/m3" />
-      </a-space>
+      <a-row>
+        <a-col :span="12">
+          <a-statistic title="CO:" :value="substance.co" suffix="μg/m3" />
+        </a-col>
+        <a-col :span="10">
+          <a-statistic title="NO:" :value="substance.no" suffix="μg/m3" />
+        </a-col>
+      </a-row>
     </div>
     <div>
-      <a-space :size="45">
-        <a-statistic title="NO2:" :value="substance.no2" suffix="μg/m3" />
-        <a-statistic title="O3:" :value="substance.o3" suffix="μg/m3" />
-      </a-space>
+      <a-row>
+        <a-col :span="12">
+          <a-statistic title="NO2:" :value="substance.no2" suffix="μg/m3" />
+        </a-col>
+        <a-col :span="10">
+          <a-statistic title="O3:" :value="substance.o3" suffix="μg/m3" />
+        </a-col>
+      </a-row>
     </div>
     <div>
-      <a-space :size="45">
-        <a-statistic title="SO2:" :value="substance.so2" suffix="μg/m3" />
-        <a-statistic title="PM2_5:" :value="substance.pm2_5" suffix="μg/m3" />
-      </a-space>
+      <a-row>
+        <a-col :span="12">
+          <a-statistic title="SO2:" :value="substance.so2" suffix="μg/m3" />
+        </a-col>
+        <a-col :span="10">
+          <a-statistic title="PM2_5:" :value="substance.pm2_5" suffix="μg/m3" />
+        </a-col>
+      </a-row>
     </div>
     <div>
-      <a-space :size="45">
-        <a-statistic title="PM10:" :value="substance.pm10" suffix="μg/m3" />
-        <a-statistic title="NH3:" :value="substance.nh3" suffix="μg/m3" />
-      </a-space>
+      <a-row>
+        <a-col :span="12">
+          <a-statistic title="PM10:" :value="substance.pm10" suffix="μg/m3" />
+        </a-col>
+        <a-col :span="10">
+          <a-statistic title="NH3:" :value="substance.nh3" suffix="μg/m3" />
+        </a-col>
+      </a-row>
     </div>
-    <BarChart />
   </a-card>
   <a-card v-else>
     <a-typography-title :level="4">
@@ -59,11 +74,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BarChart from '@components/atoms/Chart/BarChart.vue';
 
 export default defineComponent({
   name: 'AirPollution',
   props: ['searchLocation', 'air', 'substance'],
-  components: { BarChart },
 });
 </script>
