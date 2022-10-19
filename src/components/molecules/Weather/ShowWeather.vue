@@ -6,7 +6,7 @@
         {{ weather.name }},{{ sys.country }}
         <img
           :src="`https://flagcdn.com/24x18/${
-            sys.country.toLowerCase() || 'aq'
+            sys.country?.toLowerCase() || 'aq'
           }.png`" />
       </a-typography-title>
     </a-space>

@@ -1,7 +1,7 @@
 <template>
   <a-space direction="vertical" :size="16">
     <SearchBar @event="getLocation" />
-    <a-card>
+    <a-card style="width: 500px">
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Weather">
           <ShowWeather

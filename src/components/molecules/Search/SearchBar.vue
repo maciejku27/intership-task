@@ -14,13 +14,14 @@
             {{ item.name }}, {{ item.country }}
             <img
               :src="`https://flagcdn.com/16x12/${
-                item.country.toLowerCase() || 'aq'
+                item.country?.toLowerCase() || 'aq'
               }.png`" />
           </span>
           <span> {{ item.lat.toFixed(2) }}, {{ item.lon.toFixed(2) }}</span>
         </div>
       </template>
       <a-input-search
+        style="width: 500px"
         size="large"
         placeholder="Search location..."
         enter-button></a-input-search>
