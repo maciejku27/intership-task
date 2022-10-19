@@ -1,5 +1,5 @@
 <template>
-  <a-card v-if="air != ''">
+  <a-card v-if="isShown == true">
     <a-typography-title :level="3" v-if="air == 1">
       Quality of an air:
       <a-tag color="green" style="font-size: large">Good</a-tag>
@@ -77,6 +77,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'AirPollution',
-  props: ['air', 'substance'],
+  props: ['air', 'substance', 'isShown'],
 });
 </script>

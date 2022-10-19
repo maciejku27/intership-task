@@ -9,13 +9,14 @@
             :sys="sys"
             :weather="weather"
             :wind="wind"
-            :report="report"></ShowWeather>
+            :report="report"
+            :isShown="isShown"></ShowWeather>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Air Quality" force-render>
-          <AirPollution :air="air" :substance="substance"></AirPollution>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="Other">
-          <OtherInfo :weather="weather"></OtherInfo>
+          <AirPollution
+            :air="air"
+            :substance="substance"
+            :isShown="isShown"></AirPollution>
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -28,12 +29,11 @@ import axios from 'axios';
 import { Coord, Main, Weather, Wind, Sys } from '@types';
 import ShowWeather from '@components/molecules/Weather/ShowWeather.vue';
 import AirPollution from '@components/molecules/AirPollution/AirPollution.vue';
-import OtherInfo from '@components/molecules/Other/OtherInfo.vue';
 import SearchBar from '@components/molecules/Search/SearchBar.vue';
 
 export default defineComponent({
   name: 'WeatherReport',
-  components: { ShowWeather, AirPollution, OtherInfo, SearchBar },
+  components: { ShowWeather, AirPollution, SearchBar },
   data: () => ({
     weather: {} as Weather,
     coord: {} as Coord,
@@ -42,7 +42,8 @@ export default defineComponent({
     sys: {} as Sys,
     report: String,
     substance: {} as { [key: string]: number },
-    air: null,
+    isShown: false,
+    air: {} as number,
     activeKey: '1',
   }),
   methods: {
@@ -64,18 +65,15 @@ export default defineComponent({
           this.sys = response.data.sys;
           this.wind = response.data.wind;
           this.report = response.data.weather[0];
+          this.isShown = true;
           axios
-            .get(
-              'http://api.openweathermap.org/data/2.5/air_pollution',
-
-              {
-                params: {
-                  lon: lon,
-                  lat: lat,
-                  appid: '67cd127ea4ab6b435f50093b78e4d4d6',
-                },
-              }
-            )
+            .get('http://api.openweathermap.org/data/2.5/air_pollution', {
+              params: {
+                lon: lon,
+                lat: lat,
+                appid: '67cd127ea4ab6b435f50093b78e4d4d6',
+              },
+            })
             .then((response) => {
               this.substance = response.data.list[0].components;
               this.air = response.data.list[0].main.aqi;

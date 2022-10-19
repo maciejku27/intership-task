@@ -9,7 +9,7 @@
       <template #option="item">
         <div
           style="display: flex; justify-content: space-between"
-          @click="getLocation(item.lat, item.lon)">
+          @click="getLocation(item.lat, item.lon), (searchLocation = '')">
           <span>
             {{ item.name }}, {{ item.country }}
             <img
@@ -32,19 +32,22 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
+import _ from 'lodash';
 
 export default defineComponent({
   name: 'SearchBar',
   props: ['weather'],
   setup() {
     const searchLocation = ref('');
-
     const geol = ref([]);
 
     return {
       searchLocation,
       geol,
     };
+  },
+  created() {
+    this.getGeo = _.debounce(this.getGeo, 600);
   },
   methods: {
     getGeo() {

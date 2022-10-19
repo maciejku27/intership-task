@@ -1,5 +1,5 @@
 <template>
-  <a-card v-if="0 == 0">
+  <a-card v-if="isShown == true">
     <a-space direction="vertical">
       <a-typography-text> {{ changeTime }} </a-typography-text>
       <a-typography-title :level="3">
@@ -66,13 +66,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export default defineComponent({
   name: 'ShowWeather',
-  props: ['weather', 'main', 'sys', 'wind', 'date', 'report'],
+  props: ['weather', 'main', 'sys', 'wind', 'date', 'report', 'isShown'],
   computed: {
     changeTime() {
-      const changedDate = dayjs.unix(this.weather.dt).format('DD MMM, HH:mm');
+      const changedDate = dayjs
+        .unix(this.weather.dt + this.weather.timezone)
+        .utc()
+        .locale('en')
+        .format('DD MMM, HH:mm');
       return changedDate;
     },
   },
