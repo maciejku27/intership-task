@@ -13,6 +13,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'OtherInfo',
-  props: ['searchLocation', 'weather'],
+  props: ['weather'],
 });
 </script>
