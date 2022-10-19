@@ -5,9 +5,6 @@ type TGlobalState = {
   error: string | boolean;
   success: string | boolean;
   warning: string | boolean;
-  isFanSpace: boolean;
-  isCreatorSpace: boolean;
-  isOutside: boolean;
 };
 
 export const useGlobal = defineStore('global', {
@@ -17,9 +14,6 @@ export const useGlobal = defineStore('global', {
       error: false,
       success: false,
       warning: false,
-      isFanSpace: false,
-      isCreatorSpace: false,
-      isOutside: false,
     };
   },
   actions: {

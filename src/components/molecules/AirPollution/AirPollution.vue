@@ -77,6 +77,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'AirPollution',
-  props: ['searchLocation', 'air', 'substance'],
+  props: ['air', 'substance'],
 });
 </script>

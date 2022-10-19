@@ -93,6 +93,9 @@ import Container from '@components/atoms/Container/Container.vue';
 export default defineComponent({
   name: 'StepsPage',
   components: { CImage, Container },
+  data() {
+    return {};
+  },
 });
 </script>
 

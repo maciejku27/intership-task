@@ -69,7 +69,7 @@ import dayjs from 'dayjs';
 
 export default defineComponent({
   name: 'ShowWeather',
-  props: ['searchLocation', 'weather', 'main', 'sys', 'wind', 'date', 'report'],
+  props: ['weather', 'main', 'sys', 'wind', 'date', 'report'],
   computed: {
     changeTime() {
       const changedDate = dayjs.unix(this.weather.dt).format('DD MMM, HH:mm');

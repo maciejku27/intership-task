@@ -1,11 +1,10 @@
 <template>
   <a-space direction="vertical" :size="16">
     <SearchBar @event="getLocation" />
-    <a-card style="width: 500px">
+    <a-card>
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Weather">
           <ShowWeather
-            :searchLocation="searchLocation"
             :main="main"
             :sys="sys"
             :weather="weather"
@@ -13,15 +12,10 @@
             :report="report"></ShowWeather>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Air Quality" force-render>
-          <AirPollution
-            :searchLocation="searchLocation"
-            :air="air"
-            :substance="substance"></AirPollution>
+          <AirPollution :air="air" :substance="substance"></AirPollution>
         </a-tab-pane>
         <a-tab-pane key="3" tab="Other">
-          <OtherInfo
-            :searchLocation="searchLocation"
-            :weather="weather"></OtherInfo>
+          <OtherInfo :weather="weather"></OtherInfo>
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -41,14 +35,12 @@ export default defineComponent({
   name: 'WeatherReport',
   components: { ShowWeather, AirPollution, OtherInfo, SearchBar },
   data: () => ({
-    searchLocation: '',
     weather: {} as Weather,
     coord: {} as Coord,
     main: {} as Main,
     wind: {} as Wind,
     sys: {} as Sys,
     report: String,
-    geo: null,
     substance: {} as { [key: string]: number },
     air: null,
     activeKey: '1',
@@ -78,8 +70,8 @@ export default defineComponent({
 
               {
                 params: {
-                  lon: response.data.coord.lon,
-                  lat: response.data.coord.lat,
+                  lon: lon,
+                  lat: lat,
                   appid: '67cd127ea4ab6b435f50093b78e4d4d6',
                 },
               }

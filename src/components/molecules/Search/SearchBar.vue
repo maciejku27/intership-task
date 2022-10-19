@@ -1,5 +1,5 @@
 <template>
-  <div class="global-search-wrapper" style="width: 300px">
+  <div class="global-search-wrapper">
     <a-auto-complete
       v-model:value="searchLocation"
       :dropdown-match-select-width="252"
