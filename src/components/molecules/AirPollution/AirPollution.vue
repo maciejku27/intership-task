@@ -65,10 +65,25 @@
     </div>
   </a-card>
   <a-card v-else>
-    <a-typography-title :level="4">
-      Write a name of the country you want to check air quality of in the search
-      bar
-    </a-typography-title>
+    <a-row justify="center">
+      <a-typography-title :level="4">
+        Write a name of the country you want to check air quality of in the
+        search bar
+      </a-typography-title>
+    </a-row>
+    <a-row justify="center">
+      <a-typography-title :level="4"> or </a-typography-title>
+    </a-row>
+    <a-row justify="center">
+      <a-button type="primary" @click="locateMe">
+        use your current location
+      </a-button>
+    </a-row>
+    <a-row justify="center">
+      <div v-if="errorStr">
+        Sorry, but the following error occurred: {{ errorStr }}
+      </div>
+    </a-row>
   </a-card>
 </template>
 
@@ -78,5 +93,38 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'AirPollution',
   props: ['air', 'substance', 'isShown'],
+  data: () => ({
+    location: null, //TODO: change to correct location type
+    errorStr: '',
+  }),
+  methods: {
+    getPosition() {
+      return new Promise((resolve, reject) => {
+        if (!('geolocation' in navigator)) {
+          reject(new Error('Geolocation is not available.'));
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            resolve(pos);
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+      });
+    },
+    async locateMe() {
+      try {
+        this.location = await this.getPosition();
+        this.getLocation(this.location);
+      } catch (e) {
+        this.errorStr = e.message;
+      }
+    },
+    getLocation(location) {
+      this.$emit('event', location.coords.latitude, location.coords.longitude);
+    },
+  },
 });
 </script>

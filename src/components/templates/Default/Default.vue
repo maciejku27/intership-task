@@ -41,17 +41,15 @@
         v-model:selectedKeys="selectedKeys"
         mode="inline"
         theme="dark">
-        <a-sub-menu key="sub1" style="padding-top: 12px">
+        <a-sub-menu key="sub1" style="padding-top: 16px">
           <template #title>
             <div>
               <a-row type="flex" style="padding-bottom: 10px">
-                <a-col :span="6">
-                  <img src="favorite.png" style="width: 28px; height: 28px" />
+                <a-col :span="4" v-if="collapsed == true">
+                  <img src="favorite.png" style="width: 32px; height: 32px" />
                 </a-col>
-                <a-col :span="4">
-                  <a-typography-text
-                    v-if="collapsed == false"
-                    class="favourite">
+                <a-col :span="4" v-else>
+                  <a-typography-text class="favourite">
                     Favourites
                   </a-typography-text>
                 </a-col>
@@ -138,7 +136,7 @@ export default defineComponent({
 }
 
 .favourite {
-  font-size: 130%;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.65);
 }
 </style>

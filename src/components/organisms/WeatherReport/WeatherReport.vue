@@ -10,13 +10,15 @@
             :weather="weather"
             :wind="wind"
             :report="report"
-            :isShown="isShown"></ShowWeather>
+            :isShown="isShown"
+            @event="getLocation"></ShowWeather>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Air Quality" force-render>
           <AirPollution
             :air="air"
             :substance="substance"
-            :isShown="isShown"></AirPollution>
+            :isShown="isShown"
+            @event="getLocation"></AirPollution>
         </a-tab-pane>
       </a-tabs>
     </a-card>

@@ -70,9 +70,25 @@
     </div>
   </a-card>
   <a-card v-else>
-    <a-typography-title :level="4">
-      Write a name of the country you want to check weather of in the search bar
-    </a-typography-title>
+    <a-row justify="center">
+      <a-typography-title :level="4">
+        Write a name of the country you want to check weather of in the search
+        bar
+      </a-typography-title>
+    </a-row>
+    <a-row justify="center">
+      <a-typography-title :level="4"> or </a-typography-title>
+    </a-row>
+    <a-row justify="center">
+      <a-button type="primary" @click="locateMe">
+        use your current location
+      </a-button>
+    </a-row>
+    <a-row justify="center">
+      <div v-if="errorStr">
+        Sorry, but the following error occurred: {{ errorStr }}
+      </div>
+    </a-row>
   </a-card>
 </template>
 
@@ -87,6 +103,7 @@ export default defineComponent({
   name: 'ShowWeather',
   props: ['weather', 'main', 'sys', 'wind', 'date', 'report', 'isShown'],
   data: () => ({
+    //TODO: change to correct types
     index: 0,
     image: null,
     images: [
@@ -101,6 +118,9 @@ export default defineComponent({
         alt: 'star filled',
       },
     ],
+    location: null,
+    gettingLocation: false,
+    errorStr: '',
   }),
   mounted() {
     this.switchImage();
@@ -119,6 +139,33 @@ export default defineComponent({
     switchImage() {
       this.image = this.images[this.index];
       this.index = (this.index + 1) % this.images.length;
+    },
+    getPosition() {
+      return new Promise((resolve, reject) => {
+        if (!('geolocation' in navigator)) {
+          reject(new Error('Geolocation is not available.'));
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            resolve(pos);
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+      });
+    },
+    async locateMe() {
+      try {
+        this.location = await this.getPosition();
+        this.getLocation(this.location);
+      } catch (e) {
+        this.errorStr = e.message;
+      }
+    },
+    getLocation(location) {
+      this.$emit('event', location.coords.latitude, location.coords.longitude);
     },
   },
 });
