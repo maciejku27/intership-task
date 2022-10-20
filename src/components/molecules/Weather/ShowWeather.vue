@@ -1,7 +1,20 @@
 <template>
   <a-card v-if="isShown == true">
-    <a-space direction="vertical">
-      <a-typography-text> {{ changeTime }} </a-typography-text>
+    <a-row>
+      <a-col :span="23">
+        <a-typography-text> {{ changeTime }} </a-typography-text>
+      </a-col>
+      <a-col :span="1">
+        <img
+          v-if="image"
+          :key="image.id"
+          @click="switchImage"
+          class="image"
+          :src="image.src"
+          alt="image.alt" />
+      </a-col>
+    </a-row>
+    <a-row>
       <a-typography-title :level="3">
         {{ weather.name }},{{ sys.country }}
         <img
@@ -9,7 +22,7 @@
             sys.country?.toLowerCase() || 'aq'
           }.png`" />
       </a-typography-title>
-    </a-space>
+    </a-row>
     <div>
       <a-typography-title>
         <a-popover>
@@ -73,6 +86,25 @@ dayjs.extend(utc);
 export default defineComponent({
   name: 'ShowWeather',
   props: ['weather', 'main', 'sys', 'wind', 'date', 'report', 'isShown'],
+  data: () => ({
+    index: 0,
+    image: null,
+    images: [
+      {
+        id: 0,
+        src: 'unfavorite.png',
+        alt: 'star hollow',
+      },
+      {
+        id: 1,
+        src: 'favorite.png',
+        alt: 'star filled',
+      },
+    ],
+  }),
+  mounted() {
+    this.switchImage();
+  },
   computed: {
     changeTime() {
       const changedDate = dayjs
@@ -83,5 +115,24 @@ export default defineComponent({
       return changedDate;
     },
   },
+  methods: {
+    switchImage() {
+      this.image = this.images[this.index];
+      this.index = (this.index + 1) % this.images.length;
+    },
+  },
 });
 </script>
+
+<style>
+.image {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: filter 0.3s ease-in;
+}
+
+.image:hover {
+  filter: brightness(1.2);
+}
+</style>

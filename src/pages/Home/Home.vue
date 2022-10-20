@@ -1,5 +1,5 @@
 <template>
-  <Container>
+  <Container style="padding-left: 30%">
     <a-typography-title>Todays Weather</a-typography-title>
     <WeatherReport />
   </Container>
