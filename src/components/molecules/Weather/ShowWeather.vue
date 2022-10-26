@@ -6,11 +6,16 @@
       </a-col>
       <a-col :span="1">
         <img
-          v-if="image"
-          :key="image.id"
-          @click="switchImage"
+          v-if="checkFavourite(weather.name) == false"
+          @click="addFavourite(weather.name)"
           class="image"
-          :src="image.src"
+          src="unfavorite.png"
+          alt="image.alt" />
+        <img
+          v-else-if="checkFavourite(weather.name) == true"
+          @click="deleteFavourite(weather.name)"
+          class="image"
+          src="favorite.png"
           alt="image.alt" />
       </a-col>
     </a-row>
@@ -34,7 +39,7 @@
               report.icon || '03d'
             }.png`" />
         </a-popover>
-        {{ main.temp }}°C
+        {{ main.temp.toFixed(0) }}°C
       </a-typography-title>
     </div>
     <div>
@@ -96,6 +101,8 @@
 import { defineComponent } from 'vue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { storeToRefs } from 'pinia';
+import { useFavouritesStore } from '@store/useFavouritesStore';
 
 dayjs.extend(utc);
 
@@ -105,25 +112,21 @@ export default defineComponent({
   data: () => ({
     //TODO: change to correct types
     index: 0,
-    image: null,
-    images: [
-      {
-        id: 0,
-        src: 'unfavorite.png',
-        alt: 'star hollow',
-      },
-      {
-        id: 1,
-        src: 'favorite.png',
-        alt: 'star filled',
-      },
-    ],
     location: null,
     gettingLocation: false,
     errorStr: '',
   }),
+  setup() {
+    const store = useFavouritesStore();
+
+    return { store };
+  },
   mounted() {
-    this.switchImage();
+    this.getPosition();
+  },
+  updated() {
+    this.checkFavourite(this.weather.name);
+    console.log(this.checkFavourite(this.weather.name));
   },
   computed: {
     changeTime() {
@@ -136,9 +139,17 @@ export default defineComponent({
     },
   },
   methods: {
-    switchImage() {
-      this.image = this.images[this.index];
-      this.index = (this.index + 1) % this.images.length;
+    addFavourite(item: string) {
+      if (item.length === 0) {
+        return;
+      }
+      this.store.addFavourite(item);
+    },
+    deleteFavourite(item: string) {
+      this.store.deleteFavourite(item);
+    },
+    checkFavourite(item: string) {
+      return this.store.checkFavourite(item);
     },
     getPosition() {
       return new Promise((resolve, reject) => {
