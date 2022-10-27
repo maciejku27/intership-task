@@ -6,6 +6,7 @@
         <a-tab-pane key="1" tab="Weather">
           <ShowWeather
             :main="main"
+            :coord="coord"
             :sys="sys"
             :weather="weather"
             :wind="wind"

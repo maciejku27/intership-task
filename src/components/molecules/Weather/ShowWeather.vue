@@ -7,7 +7,7 @@
       <a-col :span="1">
         <img
           v-if="checkFavourite(weather.name) == false"
-          @click="addFavourite(weather.name)"
+          @click="addFavourite(weather.name, coord.lat, coord.lon)"
           class="image"
           src="unfavorite.png"
           alt="image.alt" />
@@ -101,14 +101,22 @@
 import { defineComponent } from 'vue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { storeToRefs } from 'pinia';
 import { useFavouritesStore } from '@store/useFavouritesStore';
 
 dayjs.extend(utc);
 
 export default defineComponent({
   name: 'ShowWeather',
-  props: ['weather', 'main', 'sys', 'wind', 'date', 'report', 'isShown'],
+  props: [
+    'weather',
+    'main',
+    'sys',
+    'wind',
+    'date',
+    'report',
+    'isShown',
+    'coord',
+  ],
   data: () => ({
     //TODO: change to correct types
     index: 0,
@@ -139,11 +147,11 @@ export default defineComponent({
     },
   },
   methods: {
-    addFavourite(item: string) {
+    addFavourite(item: string, lat: number, lon: number) {
       if (item.length === 0) {
         return;
       }
-      this.store.addFavourite(item);
+      this.store.addFavourite(item, lat, lon);
     },
     deleteFavourite(item: string) {
       this.store.deleteFavourite(item);

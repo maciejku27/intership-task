@@ -35,7 +35,7 @@
         <a-typography-text strong>Made with ❤ and 🍕</a-typography-text>
       </a-layout-footer>
     </a-layout>
-    <a-layout-sider class="siderMenu" v-model:collapsed="collapsed" collapsible>
+    <a-layout-sider width="200" class="siderMenu">
       <a-menu
         class="siderTitle"
         v-model:selectedKeys="selectedKeys"
@@ -45,10 +45,7 @@
           <template #title>
             <div>
               <a-row type="flex" style="padding-bottom: 10px">
-                <a-col :span="4" v-if="collapsed == true">
-                  <img src="favorite.png" style="width: 32px; height: 32px" />
-                </a-col>
-                <a-col :span="4" v-else>
+                <a-col :span="4">
                   <a-typography-text class="favourite">
                     Favourites
                   </a-typography-text>
@@ -56,9 +53,14 @@
               </a-row>
             </div>
           </template>
-          <a-menu-item key="1">Warsaw</a-menu-item>
-          <a-menu-item key="2">Tokyo</a-menu-item>
-          <a-menu-item key="3">Miami</a-menu-item>
+          <li :key="key" v-for="[key, value] in store.favourite">
+            <a-menu-item @click="getFavourite(value.lat, value.lon)">
+              {{ value.item }}
+              <a-typography-text class="coords">
+                {{ value.lon.toFixed(2) }},{{ value.lat.toFixed(2) }}
+              </a-typography-text>
+            </a-menu-item>
+          </li>
         </a-sub-menu>
       </a-menu>
     </a-layout-sider>
@@ -75,6 +77,8 @@ import { useRouter } from 'vue-router';
 import { pagePath } from '@paths/page.path';
 import CImage from '@components/atoms/Image/Image.vue';
 import Container from '@components/atoms/Container/Container.vue';
+import { useFavouritesStore } from '@store/useFavouritesStore';
+import WeatherReport from '@components/organisms/WeatherReport/WeatherReport.vue';
 //#endregion
 
 export default defineComponent({
@@ -94,11 +98,17 @@ export default defineComponent({
     return { t, handleHome, handleHelloWorld };
   },
   data() {
+    const store = useFavouritesStore();
     return {
       home: pagePath.home.pathname,
       selectedKeys: ref<string[]>(['1']),
       collapsed: ref<boolean>(false),
+      keys: 1,
+      store,
     };
+  },
+  methods: {
+    getFavourite(lat: number, lon: number) {},
   },
 });
 </script>
@@ -127,6 +137,12 @@ export default defineComponent({
 .siderMenu {
   outline-style: solid;
   outline-color: rgb(11, 148, 238);
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .siderTitle {
@@ -137,6 +153,12 @@ export default defineComponent({
 
 .favourite {
   font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  padding-left: 25px;
+}
+
+.coords {
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.65);
 }
 </style>

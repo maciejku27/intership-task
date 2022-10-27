@@ -1,20 +1,22 @@
 import { defineStore } from 'pinia';
-//TODO create favourites store for favourited locations
-
 interface FavItem {
   item: string;
   id: number;
+  lat: number;
+  lon: number;
 }
 
 export const useFavouritesStore = defineStore('favourites', {
   state: () => ({
     favourite: new Map<string, FavItem>(),
     id: 0,
+    longitude: 0,
+    latitude: 0,
   }),
   getters: {},
   actions: {
-    addFavourite(item: string) {
-      this.favourite.set(item, { item, id: 1 });
+    addFavourite(item: string, lat: number, lon: number) {
+      this.favourite.set(item, { item, id: this.id++, lat, lon });
     },
     checkFavourite(item: string) {
       return this.favourite.has(item);
@@ -22,8 +24,9 @@ export const useFavouritesStore = defineStore('favourites', {
     deleteFavourite(item: string) {
       this.favourite.delete(item);
     },
-    showFavourites() {
-      return this.favourite.values().next().value;
+    changeCoords(lat: number, lon: number) {
+      this.longitude = lat;
+      this.latitude = lon;
     },
   },
 });

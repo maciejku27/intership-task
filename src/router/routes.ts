@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: pagePath.base.pathname,
-        redirect: pagePath.helloWorld.pathname,
+        redirect: pagePath.home.pathname,
       },
       {
         path: pagePath.home.pathname,
