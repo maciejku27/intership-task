@@ -1,6 +1,7 @@
 <template>
-  <Container>
-    <a-typography-title>Home!</a-typography-title>
+  <Container style="padding-left: 30%">
+    <a-typography-title>Todays Weather</a-typography-title>
+    <WeatherReport />
   </Container>
 </template>
 
@@ -13,11 +14,12 @@ import { useI18n } from 'vue-i18n';
 import { $http } from '@services/http.service';
 import Container from '@components/atoms/Container/Container.vue';
 import { basePath } from '@paths/base.path';
+import WeatherReport from '@components/organisms/WeatherReport/WeatherReport.vue';
 //#endregion
 
 export default defineComponent({
   name: 'HomePage',
-  components: { Container },
+  components: { Container, WeatherReport },
   setup() {
     const { t } = useI18n();
     const city = 'London';

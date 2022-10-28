@@ -1,45 +1,75 @@
 <template>
   <a-layout class="layout">
-    <a-layout-header>
-      <a-row :gutter="24">
-        <a-col flex="84px">
-          <CImage src="/public/logo.png" class="logo" :href="home" />
-        </a-col>
-        <a-col flex="auto">
-          <a-menu theme="dark" mode="horizontal">
-            <a-menu-item key="home" @click="handleHome">Home</a-menu-item>
-            <a-menu-item key="helloWorld" @click="handleHelloWorld">
+    <a-layout>
+      <a-layout-header class="header">
+        <a-row :gutter="24">
+          <a-col flex="84px">
+            <CImage src="/public/logo.png" class="logo" :href="home" />
+          </a-col>
+          <a-col flex="auto">
+            <a-menu theme="dark" mode="horizontal">
+              <a-menu-item key="home" @click="handleHome">Home</a-menu-item>
+              <!-- <a-menu-item key="helloWorld" @click="handleHelloWorld">
               Hello World
+            </a-menu-item> -->
+            </a-menu>
+          </a-col>
+        </a-row>
+      </a-layout-header>
+      <a-layout-content>
+        <RouterView v-slot="{ Component }">
+          <template v-if="Component">
+            <Transition mode="out-in">
+              <KeepAlive>
+                <Suspense>
+                  <Container size="lg">
+                    <component :is="Component"></component>
+                  </Container>
+                </Suspense>
+              </KeepAlive>
+            </Transition>
+          </template>
+        </RouterView>
+      </a-layout-content>
+      <a-layout-footer class="footer">
+        <a-typography-text strong>Made with ❤ and 🍕</a-typography-text>
+      </a-layout-footer>
+    </a-layout>
+    <a-layout-sider width="200" class="siderMenu">
+      <a-menu
+        class="siderTitle"
+        v-model:selectedKeys="selectedKeys"
+        mode="inline"
+        theme="dark">
+        <a-sub-menu key="sub1" style="padding-top: 16px">
+          <template #title>
+            <div>
+              <a-row type="flex" style="padding-bottom: 10px">
+                <a-col :span="4">
+                  <a-typography-text class="favourite">
+                    Favourites
+                  </a-typography-text>
+                </a-col>
+              </a-row>
+            </div>
+          </template>
+          <li :key="key" v-for="[key, value] in store.favourite">
+            <a-menu-item>
+              {{ value.item }}
+              <a-typography-text class="coords">
+                {{ value.lon.toFixed(2) }},{{ value.lat.toFixed(2) }}
+              </a-typography-text>
             </a-menu-item>
-          </a-menu>
-        </a-col>
-      </a-row>
-    </a-layout-header>
-    <a-layout-content>
-      <RouterView v-slot="{ Component }">
-        <template v-if="Component">
-          <Transition mode="out-in">
-            <KeepAlive>
-              <Suspense>
-                <Container size="lg">
-                  <component :is="Component"></component>
-                </Container>
-              </Suspense>
-            </KeepAlive>
-          </Transition>
-        </template>
-      </RouterView>
-    </a-layout-content>
-
-    <a-layout-footer class="footer">
-      <a-typography-text strong>Made with ❤ and 🍕</a-typography-text>
-    </a-layout-footer>
+          </li>
+        </a-sub-menu>
+      </a-menu>
+    </a-layout-sider>
   </a-layout>
 </template>
 
 <script lang="ts">
 //#region vendor
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 //#endregion
@@ -47,6 +77,7 @@ import { useRouter } from 'vue-router';
 import { pagePath } from '@paths/page.path';
 import CImage from '@components/atoms/Image/Image.vue';
 import Container from '@components/atoms/Container/Container.vue';
+import { useFavouritesStore } from '@store/useFavouritesStore';
 //#endregion
 
 export default defineComponent({
@@ -66,8 +97,13 @@ export default defineComponent({
     return { t, handleHome, handleHelloWorld };
   },
   data() {
+    const store = useFavouritesStore();
     return {
       home: pagePath.home.pathname,
+      selectedKeys: ref<string[]>(['1']),
+      collapsed: ref<boolean>(false),
+      keys: 1,
+      store,
     };
   },
 });
@@ -87,5 +123,38 @@ export default defineComponent({
 .footer {
   display: flex;
   justify-content: center;
+}
+
+.header {
+  outline-style: solid;
+  outline-color: rgb(11, 148, 238);
+}
+
+.siderMenu {
+  outline-style: solid;
+  outline-color: rgb(11, 148, 238);
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.siderTitle {
+  height: 64px;
+  outline-style: solid;
+  outline-color: rgb(11, 148, 238);
+}
+
+.favourite {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  padding-left: 25px;
+}
+
+.coords {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
 }
 </style>
