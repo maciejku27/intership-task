@@ -5,10 +5,15 @@ interface FavItem {
   lat: number;
   lon: number;
 }
+interface Coords {
+  latitude: number;
+  longitude: number;
+}
 
 export const useFavouritesStore = defineStore('favourites', {
   state: () => ({
     favourite: new Map<string, FavItem>(),
+    coords: {} as Coords,
     id: 0,
   }),
   getters: {},
@@ -21,6 +26,9 @@ export const useFavouritesStore = defineStore('favourites', {
     },
     deleteFavourite(item: string) {
       this.favourite.delete(item);
+    },
+    currentLocation(lat: number, lon: number) {
+      this.coords = { latitude: lat, longitude: lon };
     },
   },
 });

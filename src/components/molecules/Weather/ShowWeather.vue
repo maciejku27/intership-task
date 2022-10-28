@@ -133,7 +133,6 @@ export default defineComponent({
   },
   updated() {
     this.checkFavourite(this.weather.name);
-    console.log(this.checkFavourite(this.weather.name));
   },
   computed: {
     changeTime() {
@@ -177,13 +176,16 @@ export default defineComponent({
     async locateMe() {
       try {
         this.location = await this.getPosition();
-        this.getLocation(this.location);
+        this.changeLocation(this.location);
       } catch (e) {
         this.errorStr = e.message;
       }
     },
-    getLocation(location) {
-      this.$emit('event', location.coords.latitude, location.coords.longitude);
+    changeLocation(location) {
+      this.store.currentLocation(
+        location.coords.latitude,
+        location.coords.longitude
+      );
     },
   },
 });

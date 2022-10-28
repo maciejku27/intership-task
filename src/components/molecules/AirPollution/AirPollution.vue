@@ -89,6 +89,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useFavouritesStore } from '@store/useFavouritesStore';
 
 export default defineComponent({
   name: 'AirPollution',
@@ -97,6 +98,11 @@ export default defineComponent({
     location: null,
     errorStr: '',
   }),
+  setup() {
+    const store = useFavouritesStore();
+
+    return { store };
+  },
   methods: {
     getPosition() {
       return new Promise((resolve, reject) => {
@@ -117,13 +123,16 @@ export default defineComponent({
     async locateMe() {
       try {
         this.location = await this.getPosition();
-        this.getLocation(this.location);
+        this.changeLocation(this.location);
       } catch (e) {
         this.errorStr = e.message;
       }
     },
-    getLocation(location) {
-      this.$emit('event', location.coords.latitude, location.coords.longitude);
+    changeLocation(location) {
+      this.store.currentLocation(
+        location.coords.latitude,
+        location.coords.longitude
+      );
     },
   },
 });

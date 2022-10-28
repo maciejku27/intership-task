@@ -31,9 +31,7 @@
           </template>
         </RouterView>
       </a-layout-content>
-      <a-layout-footer class="footer">
-        <a-typography-text strong>Made with ❤ and 🍕</a-typography-text>
-      </a-layout-footer>
+      <a-layout-footer class="footer"> </a-layout-footer>
     </a-layout>
     <a-layout-sider width="200" class="siderMenu">
       <a-menu
@@ -54,10 +52,10 @@
             </div>
           </template>
           <li :key="key" v-for="[key, value] in store.favourite">
-            <a-menu-item>
+            <a-menu-item @click="store.currentLocation(value.lat, value.lon)">
               {{ value.item }}
               <a-typography-text class="coords">
-                {{ value.lon.toFixed(2) }},{{ value.lat.toFixed(2) }}
+                {{ value.lat.toFixed(2) }},{{ value.lon.toFixed(2) }}
               </a-typography-text>
             </a-menu-item>
           </li>

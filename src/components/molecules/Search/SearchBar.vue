@@ -9,7 +9,9 @@
       <template #option="item">
         <div
           style="display: flex; justify-content: space-between"
-          @click="getLocation(item.lat, item.lon), (searchLocation = '')">
+          @click="
+            store.currentLocation(item.lat, item.lon), (searchLocation = '')
+          ">
           <span>
             {{ item.name }}, {{ item.country }}
             <img
@@ -33,6 +35,7 @@
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 import _ from 'lodash';
+import { useFavouritesStore } from '@store/useFavouritesStore';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -41,9 +44,12 @@ export default defineComponent({
     const searchLocation = ref('');
     const geol = ref([]);
 
+    const store = useFavouritesStore();
+
     return {
       searchLocation,
       geol,
+      store,
     };
   },
   created() {
