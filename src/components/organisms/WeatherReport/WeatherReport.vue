@@ -33,7 +33,6 @@ import { Coord, Main, Weather, Wind, Sys } from '@types';
 import ShowWeather from '@components/molecules/Weather/ShowWeather.vue';
 import AirPollution from '@components/molecules/AirPollution/AirPollution.vue';
 import SearchBar from '@components/molecules/Search/SearchBar.vue';
-import { useFavouritesStore } from '@store/useFavouritesStore';
 
 export default defineComponent({
   name: 'WeatherReport',
@@ -50,11 +49,6 @@ export default defineComponent({
     air: {} as number,
     activeKey: '1',
   }),
-  setup() {
-    const store = useFavouritesStore();
-
-    return { store };
-  },
   methods: {
     getLocation(lat: number, lon: number) {
       axios
