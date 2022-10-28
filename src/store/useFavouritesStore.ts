@@ -10,8 +10,6 @@ export const useFavouritesStore = defineStore('favourites', {
   state: () => ({
     favourite: new Map<string, FavItem>(),
     id: 0,
-    longitude: 0,
-    latitude: 0,
   }),
   getters: {},
   actions: {
@@ -23,10 +21,6 @@ export const useFavouritesStore = defineStore('favourites', {
     },
     deleteFavourite(item: string) {
       this.favourite.delete(item);
-    },
-    changeCoords(lat: number, lon: number) {
-      this.longitude = lat;
-      this.latitude = lon;
     },
   },
 });

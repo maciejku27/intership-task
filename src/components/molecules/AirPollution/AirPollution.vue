@@ -94,7 +94,7 @@ export default defineComponent({
   name: 'AirPollution',
   props: ['air', 'substance', 'isShown'],
   data: () => ({
-    location: null, //TODO: change to correct location type
+    location: null,
     errorStr: '',
   }),
   methods: {

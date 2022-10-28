@@ -118,7 +118,6 @@ export default defineComponent({
     'coord',
   ],
   data: () => ({
-    //TODO: change to correct types
     index: 0,
     location: null,
     gettingLocation: false,

@@ -54,7 +54,7 @@
             </div>
           </template>
           <li :key="key" v-for="[key, value] in store.favourite">
-            <a-menu-item @click="getFavourite(value.lat, value.lon)">
+            <a-menu-item>
               {{ value.item }}
               <a-typography-text class="coords">
                 {{ value.lon.toFixed(2) }},{{ value.lat.toFixed(2) }}
@@ -78,7 +78,6 @@ import { pagePath } from '@paths/page.path';
 import CImage from '@components/atoms/Image/Image.vue';
 import Container from '@components/atoms/Container/Container.vue';
 import { useFavouritesStore } from '@store/useFavouritesStore';
-import WeatherReport from '@components/organisms/WeatherReport/WeatherReport.vue';
 //#endregion
 
 export default defineComponent({
@@ -106,9 +105,6 @@ export default defineComponent({
       keys: 1,
       store,
     };
-  },
-  methods: {
-    getFavourite(lat: number, lon: number) {},
   },
 });
 </script>
