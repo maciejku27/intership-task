@@ -7,7 +7,6 @@ import DefaultTemplate from '@components/templates/Default/Default.vue';
 // Pages
 import Page404 from '@pages/404/404.vue';
 import Home from '@pages/Home/Home.vue';
-import HelloWorld from '@pages/HelloWorld/HelloWorld.vue';
 
 const routes: RouteRecordRaw[] = [
   // outside
@@ -23,12 +22,6 @@ const routes: RouteRecordRaw[] = [
         path: pagePath.home.pathname,
         name: 'home',
         component: Home,
-      },
-
-      {
-        path: pagePath.helloWorld.pathname,
-        name: 'helloWorld',
-        component: HelloWorld,
       },
     ],
   },
